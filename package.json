@@ -1,0 +1,22 @@
+{
+  "name": "slack-bot-temp",
+  "version": "1.0.0",
+  "description": "right now it's a dev version of my first slack bot",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/821760408-sp/slack-bot-temp.git"
+  },
+  "author": "juan-gotama",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/821760408-sp/slack-bot-temp/issues"
+  },
+  "homepage": "https://github.com/821760408-sp/slack-bot-temp#readme",
+  "dependencies": {
+    "slack-client": "^2.0.1"
+  }
+}
