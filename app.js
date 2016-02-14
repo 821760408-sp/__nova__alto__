@@ -11,8 +11,11 @@ rtmClient.start();
 rtmClient.on('message', function (message) {
   // Listens to all `message` events from the team
   //noinspection JSUnresolvedFunction
-  var channelGroupOrDM = slack.getChannelGroupOrDMByID(message.channel);
-  if (channelGroupOrDM.is_im) { // https://api.slack.com/types/im
+  //var channelGroupOrDM = slack.getChannelGroupOrDMByID(message.channel);
+  //if (channelGroupOrDM.is_im) { // https://api.slack.com/types/im
+  var text = message.text;
+  var parsedText = text.split(' ');
+  if (parsedText[0] === '@test-bot') {
     rtmClient.sendMessage('test succeeded!', message.channel);
   }
 });
