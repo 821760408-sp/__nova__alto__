@@ -15,7 +15,7 @@ rtmClient.on('message', function (message) {
   //if (channelGroupOrDM.is_im) { // https://api.slack.com/types/im
   var text = message.text;
   var parsedText = text.split(' ');
-  if (parsedText[0] === '@test-bot:') {
+  if (parsedText[0] === '<@U0M8LT35H>:') {
     rtmClient.sendMessage('test succeeded!', message.channel);
   }
 });
