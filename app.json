@@ -1,0 +1,14 @@
+{
+  "name": "my-test-bot",
+  "description": "",
+  "repository": "",
+  "logo": "",
+  "keywords": [""],
+  "env": {
+    "SLACK_API_TOKEN": {
+      "description": "This token is required in order to use Slack's API. You get it when you create a bot at https://my.slack.com/services/new/bot",
+      "value": "",
+      "required": true
+    }
+  }
+}
