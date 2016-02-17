@@ -245,7 +245,6 @@ function appendHashtags (msgTxt, alchemyOutput) {
     for (var i = 0, len = concepts.length; i < len; ++i) {
       var hashtag = concepts[i].text
       msgTxt += ' #' + helpMakeHashtag(hashtag)
-      console.log(msgTxt)
     }
   }
   insertHashtags(msgTxt, alchemyOutput)
@@ -297,8 +296,23 @@ function retweet (msgTxt, alchemyOutput) {
 }
 
 
+const http = require("http")
+const PORT = process.env.PORT || 3000
+
+
+function handleRequest (request, response) {
+  response.end('Zzžźż')
+}
+
+
+const server = http.createServer(handleRequest)
+server.listen(PORT, function(){
+  console.log('Server listening on: http://localhost:%s', PORT)
+})
+
+
 // prevent Heroku app from sleeping
-var http = require("http");
+// every 5 minutes (300000)
 setInterval(function () {
-  http.get("https://my-test-bot.herokuapp.com");
-}, 300000); // every 5 minutes (300000)
+  http.get("https://my-test-bot.herokuapp.com")
+}, 300000)
