@@ -314,15 +314,58 @@ function insertHashtags (msgTxt, alchemyOutput) {
 
 
 function retweet (msgTxt, alchemyOutput) {
-  //var taxonomy = alchemyOutput.taxonomy
-  //if (taxonomy.length > 0) {
-  //  var label = taxonomy[0].label
-  //  twitterClient.get('search/tweets', {q: label, count: 1, }, function (err, tweets, response) {
-  //    if (error) throw error
-  //    console.log(tweets)
-  //    var tweetID = tweets.statuses[0].id
-  //    twitterClient.post('statuses/retweet/'+tweetID, function(error, tweet, response) {
-  //    })
-  //  })
-  //}
+  var taxonomy = alchemyOutput.taxonomy
+  if (taxonomy.length > 0) {
+    // 'label' seperated by '/'
+    var label = taxonomy[0].label.split('/')[1]
+    // search for tweets based on the first label returned by AlchemyAPI
+    // retrieve the first tweet from the returned results
+    twitterClient.get('search/tweets', {q: label, count: 1, }, function (error, tweets, response) {
+      if (error) throw error
+
+      console.log(tweets)
+
+      // it is 'id_str', instead of 'id', the field we want
+      if (tweets.statuses[0]) {
+        var tweetID = tweets.statuses[0].id_str
+        // get an 'oembed' link to the tweet
+        twitterClient.get('statuses/oembed', {id: tweetID}, function (error, tweets, response) {
+          var link = tweets.url
+          // use msgTxt and this link to post a new tweet
+          msgTxt += ' ' + link
+          if (msgTxt.length >= 140) {msgTxt = msgTxt.substring(0, 140)}
+          //twitterClient.post('statuses/update', {status: msgTxt}, function(error, tweet, response){
+          //  if (error) throw error
+          //})
+        })
+      }
+    })
+  } else {
+    if (msgTxt.length >= 140) {msgTxt = msgTxt.substring(0, 140)}
+    //twitterClient.post('statuses/update', {status: msgTxt}, function(error, tweet, response){
+    //  if (error) throw error
+    //})
+  }
 }
+
+
+const http = require("http")
+const PORT = process.env.PORT || 3000
+
+
+function handleRequest (request, response) {
+  response.end('Zzžźż')
+}
+
+
+const server = http.createServer(handleRequest)
+server.listen(PORT, function(){
+  console.log('Server listening on: http://localhost:%s', PORT)
+})
+
+
+// prevent Heroku app from sleeping
+// every 5 minutes (300000)
+setInterval(function () {
+  http.get("http://my-test-bot.herokuapp.com")
+}, 300000)
