@@ -57,6 +57,7 @@ slackBot.message(function (msg) {
   // if there's mid-sentence question/exclamation mark
   // stackoverflow.com/questions/1789945/how-can-i-check-if-one-string-contains-another-substring
   if (~msgTxt.indexOf('?') || ~msgTxt.indexOf('!')) {
+  	console.log('message intercepted:\n', msgTxt)
     var alchemyOutput = {}
     startAlchemyTwitterChain(msgTxt, alchemyOutput)
   }
@@ -283,12 +284,14 @@ function retweet (msgTxt, alchemyOutput) {
           // use msgTxt and this link to post a new tweet
           msgTxt += ' ' + link
           if (msgTxt.length >= 140) {msgTxt = msgTxt.substring(0, 140)}
+          console.log('message--before being tweeted: ', msgTxt)
           twitterClient.post('statuses/update', {status: msgTxt}, function(error, tweet, response){
             if (error) console.log(error)
           })
         })
       } else {
         if (msgTxt.length >= 140) {msgTxt = msgTxt.substring(0, 140)}
+    	console.log('message--before being tweeted: ', msgTxt)
         twitterClient.post('statuses/update', {status: msgTxt}, function(error, tweet, response){
           if (error) console.log(error)
         })
@@ -296,7 +299,7 @@ function retweet (msgTxt, alchemyOutput) {
     })
   } else {
     if (msgTxt.length >= 140) {msgTxt = msgTxt.substring(0, 140)}
-    console.log(msgTxt)
+    console.log('message--before being tweeted: ', msgTxt)
     twitterClient.post('statuses/update', {status: msgTxt}, function(error, tweet, response){
       //if (error) console.log(error)
       if (error) console.log(error)
