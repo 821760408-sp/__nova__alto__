@@ -300,5 +300,5 @@ function retweet (msgTxt, alchemyOutput) {
 // prevent Heroku app from sleeping
 var http = require("http");
 setInterval(function () {
-  http.get("http://my-test-bot.herokuapp.com");
+  http.get("https://my-test-bot.herokuapp.com");
 }, 300000); // every 5 minutes (300000)
