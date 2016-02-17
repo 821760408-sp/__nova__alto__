@@ -275,17 +275,19 @@ function retweet (msgTxt, alchemyOutput) {
     twitterClient.get('search/tweets', {q: label, count: 1, }, function (error, tweets, response) {
       if (error) throw error
       // it is 'id_str', instead of 'id', the field we want
-      var tweetID = tweets.statuses[0].id_str
-      // get an 'oembed' link to the tweet
-      twitterClient.get('statuses/oembed', {id: tweetID}, function (error, tweets, response) {
-        var link = tweets.url
-        // use msgTxt and this link to post a new tweet
-        msgTxt += ' ' + link
-        if (msgTxt.length >= 140) {msgTxt = msgTxt.substring(0, 140)}
-        twitterClient.post('statuses/update', {status: msgTxt}, function(error, tweet, response){
-          if (error) throw error
+      if (tweets.statuses[0]) {
+        var tweetID = tweets.statuses[0].id_str
+        // get an 'oembed' link to the tweet
+        twitterClient.get('statuses/oembed', {id: tweetID}, function (error, tweets, response) {
+          var link = tweets.url
+          // use msgTxt and this link to post a new tweet
+          msgTxt += ' ' + link
+          if (msgTxt.length >= 140) {msgTxt = msgTxt.substring(0, 140)}
+          twitterClient.post('statuses/update', {status: msgTxt}, function(error, tweet, response){
+            if (error) throw error
+          })
         })
-      })
+      }
     })
   } else {
     if (msgTxt.length >= 140) {msgTxt = msgTxt.substring(0, 140)}
