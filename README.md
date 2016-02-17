@@ -1,4 +1,4 @@
-# slack-alchemy-twitter-bot
-a slack bot with no name yet
+# __nova__alto__
+A Slack->AlchemyAPI->Twitter Bot
 
-tweets questions and exclamations from my Slack team to [Twitter](https://twitter.com/SlackyDan1985)
+Tweets questions and exclamations from my Slack team to [Twitter](https://twitter.com/SlackyDan1985)
