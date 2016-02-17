@@ -66,13 +66,15 @@ slackBot.user_typing(function (msg) {
 slackBot.message(function (msg) {
   // ignore messages from bots (self or other) to prevent looping
   if (msg.subtype == 'bot_message') return
+
+  console.log(msg)
+
   var msgTxt = msg.text
   // if there's mid-sentence question/exclamation mark
   // stackoverflow.com/questions/1789945/how-can-i-check-if-one-string-contains-another-substring
   if (~msgTxt.indexOf('?') || ~msgTxt.indexOf('!')) {
     var alchemyOutput = {}
-    //console.log('first we log _alchemyOutput: ', _alchemyOutput)
-    console.log('stress found in:\n', msg)
+    //console.log('stress found in:\n', msg)
     startAlchemyTwitterChain(msgTxt, alchemyOutput)
   }
 })
@@ -312,15 +314,15 @@ function insertHashtags (msgTxt, alchemyOutput) {
 
 
 function retweet (msgTxt, alchemyOutput) {
-  var taxonomy = alchemyOutput.taxonomy
-  if (taxonomy.length > 0) {
-    var label = taxonomy[0].label
-    twitterClient.get('search/tweets', {q: label, count: 1, }, function (err, tweets, response) {
-      if (error) throw error
-      console.log(tweets)
-      var tweetID = tweets.statuses[0].id
-      twitterClient.post('statuses/retweet/'+tweetID, function(error, tweet, response) {
-      })
-    })
-  }
+  //var taxonomy = alchemyOutput.taxonomy
+  //if (taxonomy.length > 0) {
+  //  var label = taxonomy[0].label
+  //  twitterClient.get('search/tweets', {q: label, count: 1, }, function (err, tweets, response) {
+  //    if (error) throw error
+  //    console.log(tweets)
+  //    var tweetID = tweets.statuses[0].id
+  //    twitterClient.post('statuses/retweet/'+tweetID, function(error, tweet, response) {
+  //    })
+  //  })
+  //}
 }
