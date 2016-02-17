@@ -74,7 +74,7 @@ function startAlchemyTwitterChain (msgTxt, alchemyOutput) {
 function entities (msgTxt, alchemyOutput) {
   // Named Entity Extraction
   alchemy.entities(msgTxt, {}, function (err, response) {
-    if (err) throw err
+    if (err) console.log(err)
     // See http://www.alchemyapi.com/api/entity-extraction for format of returned object
     alchemyOutput.entities = response.entities
     // put chain entry points inside callback to force success when reaching the end
@@ -86,7 +86,7 @@ function entities (msgTxt, alchemyOutput) {
 function docSentiment (msgTxt, alchemyOutput) {
   // Sentiment Analysis
   alchemy.sentiment(msgTxt, {}, function (err, response) {
-    if (err) throw err
+    if (err) console.log(err)
     /*
      { mixed: '1', score: '-0.267269', type: 'negative' }
      */
@@ -99,7 +99,7 @@ function docSentiment (msgTxt, alchemyOutput) {
 function concepts (msgTxt, alchemyOutput) {
   // Concept Tagging, used as end-of-sentence hashtags?
   alchemy.concepts(msgTxt, {}, function (err, response) {
-    if (err) throw err
+    if (err) console.log(err)
     alchemyOutput.concepts = response.concepts
     /*
      [ { text: 'New York City',
@@ -123,7 +123,7 @@ function concepts (msgTxt, alchemyOutput) {
 function keywords (msgTxt, alchemyOutput) {
   // Keyword / Terminology Extraction, used as mid-sentence hashtag?
   alchemy.keywords(msgTxt, {}, function (err, response) {
-    if (err) throw err
+    if (err) console.log(err)
     alchemyOutput.keywords = response.keywords
     //alchemyOutput.targeted_sentiments = []
     /*
@@ -142,7 +142,7 @@ function keywords (msgTxt, alchemyOutput) {
     //     docSentiment: { type: 'neutral' } }
     //     */
     //    alchemy.sentiment_targeted(msgTxt, keyword.text, {}, function (err, response) {
-    //      if (err) throw err
+    //      if (err) console.log(err)
     //      var sentiment = response
     //      _alchemyOutput.targeted_sentiments.push(sentiment)
     //    })
@@ -156,7 +156,7 @@ function keywords (msgTxt, alchemyOutput) {
 function taxonomies (msgTxt, alchemyOutput) {
   // Taxonomy
   alchemy.taxonomies(msgTxt, {}, function (err, response) {
-    if (err) throw err
+    if (err) console.log(err)
     alchemyOutput.taxonomy = response.taxonomy
     /*
      [ { label: '/art and entertainment/theatre', score: '0.681304' },
@@ -174,7 +174,7 @@ function taxonomies (msgTxt, alchemyOutput) {
 function category (msgTxt, alchemyOutput) {
   // Topic Categorization, used as retweet search term?
   alchemy.category(msgTxt, {}, function(err, response) {
-    if (err) throw err
+    if (err) console.log(err)
     alchemyOutput.category = response.category
     // put chain entry points inside callback to force success when reaching the end
     startTwitterPreprocessing(msgTxt, alchemyOutput)
@@ -212,7 +212,7 @@ function startTwitterPreprocessing (msgTxt, alchemyOutput) {
       } else {
         var entityName = entities[i].text
         twitterClient.get('users/search', {q: entityName, page: 1, count: 1}, function (error, tweets, response) {
-          if (error) throw error
+          if (error) console.log(error)
           if (tweets[0]) {
             var screen_name = tweets[0].screen_name
             var pos = msgTxt.indexOf(entityName)
@@ -273,7 +273,7 @@ function retweet (msgTxt, alchemyOutput) {
     // search for tweets based on the first label returned by AlchemyAPI
     // retrieve the first tweet from the returned results
     twitterClient.get('search/tweets', {q: label, count: 1, }, function (error, tweets, response) {
-      if (error) throw error
+      if (error) console.log(error)
       // it is 'id_str', instead of 'id', the field we want
       if (tweets.statuses[0]) {
         var tweetID = tweets.statuses[0].id_str
@@ -284,13 +284,13 @@ function retweet (msgTxt, alchemyOutput) {
           msgTxt += ' ' + link
           if (msgTxt.length >= 140) {msgTxt = msgTxt.substring(0, 140)}
           twitterClient.post('statuses/update', {status: msgTxt}, function(error, tweet, response){
-            if (error) throw error
+            if (error) console.log(error)
           })
         })
       } else {
         if (msgTxt.length >= 140) {msgTxt = msgTxt.substring(0, 140)}
         twitterClient.post('statuses/update', {status: msgTxt}, function(error, tweet, response){
-          if (error) throw error
+          if (error) console.log(error)
         })
       }
     })
@@ -298,7 +298,7 @@ function retweet (msgTxt, alchemyOutput) {
     if (msgTxt.length >= 140) {msgTxt = msgTxt.substring(0, 140)}
     console.log(msgTxt)
     twitterClient.post('statuses/update', {status: msgTxt}, function(error, tweet, response){
-      //if (error) throw error
+      //if (error) console.log(error)
       if (error) console.log(error)
     })
   }
