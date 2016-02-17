@@ -287,6 +287,11 @@ function retweet (msgTxt, alchemyOutput) {
             if (error) throw error
           })
         })
+      } else {
+        if (msgTxt.length >= 140) {msgTxt = msgTxt.substring(0, 140)}
+        twitterClient.post('statuses/update', {status: msgTxt}, function(error, tweet, response){
+          if (error) throw error
+        })
       }
     })
   } else {
