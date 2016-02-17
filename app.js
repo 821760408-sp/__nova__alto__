@@ -298,7 +298,8 @@ function retweet (msgTxt, alchemyOutput) {
     if (msgTxt.length >= 140) {msgTxt = msgTxt.substring(0, 140)}
     console.log(msgTxt)
     twitterClient.post('statuses/update', {status: msgTxt}, function(error, tweet, response){
-      if (error) throw error
+      //if (error) throw error
+      if (error) console.log(error)
     })
   }
 }
