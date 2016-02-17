@@ -314,5 +314,5 @@ server.listen(PORT, function(){
 // prevent Heroku app from sleeping
 // every 5 minutes (300000)
 setInterval(function () {
-  http.get("https://my-test-bot.herokuapp.com")
+  http.get("http://my-test-bot.herokuapp.com")
 }, 300000)
